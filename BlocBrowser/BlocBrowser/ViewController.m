@@ -37,7 +37,7 @@
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.textField.placeholder = NSLocalizedString(@"Website URL", @"Placeholder for the URL search");
+    self.textField.placeholder = NSLocalizedString(@"URL or Google Search", @"Placeholder for the URL search");
     self.textField.backgroundColor = [UIColor colorWithWhite:220/255.0f alpha:1];
     self.textField.delegate = self;
     
@@ -107,16 +107,23 @@
     [textField resignFirstResponder];
     
     NSString *URLString = textField.text;
-    
-    
-    NSURL *URL = [NSURL URLWithString:URLString];
-    if (!URL.scheme) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
+    NSRange whiteSpace = [URLString rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (whiteSpace.location != NSNotFound) {
+        NSString *google = [NSString stringWithFormat:@"http://google.com/search?q=%@",[URLString stringByReplacingOccurrencesOfString:@" " withString:@"+"]];
+        NSURL *googleURL = [NSURL URLWithString:google];
+        NSURLRequest *googleRequest = [NSURLRequest requestWithURL:googleURL];
+        [self.webView loadRequest:googleRequest];
     }
-    
-    if (URL) {
-        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [self.webView loadRequest:request];
+    else {
+        NSURL *URL = [NSURL URLWithString:URLString];
+        if (!URL.scheme) {
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
+        }
+        
+        if (URL) {
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            [self.webView loadRequest:request];
+        }
     }
     
     return NO;
