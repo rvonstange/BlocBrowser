@@ -13,6 +13,7 @@
 		D4AF6EE61BC2B44C0005FA0E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4AF6EE51BC2B44C0005FA0E /* Images.xcassets */; };
 		D4AF6EE91BC2B44C0005FA0E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4AF6EE71BC2B44C0005FA0E /* LaunchScreen.xib */; };
 		D4AF6EF51BC2B44C0005FA0E /* BlocBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AF6EF41BC2B44C0005FA0E /* BlocBrowserTests.m */; };
+		D4AF6F001BC30FCB0005FA0E /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AF6EFF1BC30FCB0005FA0E /* AwesomeFloatingToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,8 @@
 		D4AF6EEE1BC2B44C0005FA0E /* BlocBrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocBrowserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4AF6EF31BC2B44C0005FA0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4AF6EF41BC2B44C0005FA0E /* BlocBrowserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocBrowserTests.m; sourceTree = "<group>"; };
+		D4AF6EFE1BC30FCB0005FA0E /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		D4AF6EFF1BC30FCB0005FA0E /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,8 @@
 				D4AF6EDD1BC2B44C0005FA0E /* AppDelegate.m */,
 				D4AF6EDF1BC2B44C0005FA0E /* ViewController.h */,
 				D4AF6EE01BC2B44C0005FA0E /* ViewController.m */,
+				D4AF6EFE1BC30FCB0005FA0E /* AwesomeFloatingToolbar.h */,
+				D4AF6EFF1BC30FCB0005FA0E /* AwesomeFloatingToolbar.m */,
 				D4AF6EE51BC2B44C0005FA0E /* Images.xcassets */,
 				D4AF6EE71BC2B44C0005FA0E /* LaunchScreen.xib */,
 				D4AF6ED81BC2B44C0005FA0E /* Supporting Files */,
@@ -218,6 +223,7 @@
 				D4AF6EE11BC2B44C0005FA0E /* ViewController.m in Sources */,
 				D4AF6EDE1BC2B44C0005FA0E /* AppDelegate.m in Sources */,
 				D4AF6EDB1BC2B44C0005FA0E /* main.m in Sources */,
+				D4AF6F001BC30FCB0005FA0E /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +408,7 @@
 				D4AF6EFA1BC2B44C0005FA0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4AF6EFB1BC2B44C0005FA0E /* Build configuration list for PBXNativeTarget "BlocBrowserTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +417,7 @@
 				D4AF6EFD1BC2B44C0005FA0E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
