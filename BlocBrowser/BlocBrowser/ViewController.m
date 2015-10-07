@@ -22,6 +22,7 @@
 @property (nonatomic, strong) AwesomeFloatingToolbar *awesomeToolbar;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, assign) NSUInteger frameCount;
+@property (nonatomic, strong) NSArray *colors;
 
 
 @end
@@ -45,7 +46,7 @@
     self.textField.backgroundColor = [UIColor colorWithWhite:220/255.0f alpha:1];
     self.textField.delegate = self;
     
-    self.awesomeToolbar = [[AwesomeFloatingToolbar alloc] initWithFourTitles:@[kWebBrowserBackString, kWebBrowserForwardString, kWebBrowserStopString, kWebBrowserRefreshString]];
+    self.awesomeToolbar = [[AwesomeFloatingToolbar alloc] initWithFourTitles:@[kWebBrowserBackString, kWebBrowserForwardString, kWebBrowserStopString, kWebBrowserRefreshString] withColors:self.colors];
     self.awesomeToolbar.delegate = self;
     
     for (UIView *viewToAdd in @[self.webView, self.textField, self.awesomeToolbar]) {
@@ -79,7 +80,12 @@
     
     self.textField.frame = CGRectMake(0, 0, width, itemHeight);
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
-    self.awesomeToolbar.frame = CGRectMake(10, 100, 350, 100);
+    if (self.awesomeToolbar.frame.origin.x == 0) {
+        self.awesomeToolbar.frame = CGRectMake(20, 100, 280, 60);
+    }
+    else {
+        self.awesomeToolbar.frame = CGRectMake(self.awesomeToolbar.frame.origin.x, self.awesomeToolbar.frame.origin.y, self.awesomeToolbar.frame.size.width, self.awesomeToolbar.frame.size.height);
+    }
     
 }
 
@@ -202,6 +208,18 @@
     if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
         toolbar.frame = potentialNewFrame;
     }
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didPinchLabels:(CGFloat)pinch {
+    CGAffineTransform t = CGAffineTransformScale(toolbar.transform, pinch, pinch);
+    toolbar.transform = t;
+    toolbar.frame = CGRectApplyAffineTransform(toolbar.frame, toolbar.transform);
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar longTouchOccurred:(CFTimeInterval)time {
+    NSLog(@"Hello I am in here");
+    NSArray* temp = @[self.colors[1],self.colors[2],self.colors[3],self.colors[0]];
+    self.colors = temp;
 }
 
 @end

@@ -16,24 +16,31 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
-
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
 
 
 @end
 
 @implementation AwesomeFloatingToolbar
 
--(instancetype) initWithFourTitles:(NSArray *)titles {
+-(instancetype) initWithFourTitles:(NSArray *)titles withColors:(NSArray *) colors{
     self = [super init];
     
     if (self) {
         
         // Save the titles, and set the 4 colors
         self.currentTitles = titles;
-        self.colors = @[[UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1],
-                        [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1],
-                        [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1],
-                        [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]];
+        if (colors == nil) {
+            self.colors = @[[UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1],
+                            [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1],
+                            [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1],
+                            [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]];
+        }
+        else {
+            self.colors = colors;
+        }
+
         
         NSMutableArray *labelsArray = [[NSMutableArray alloc] init];
         
@@ -67,6 +74,14 @@
     [self addGestureRecognizer:self.tapGesture];
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
     [self addGestureRecognizer:self.panGesture];
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
+    [self addGestureRecognizer:self.pinchGesture];
+    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+    self.longPressGesture.numberOfTapsRequired = 1;
+    self.longPressGesture.numberOfTouchesRequired = 1;
+    self.longPressGesture.minimumPressDuration = 3;
+    [self addGestureRecognizer:self.longPressGesture];
+    
     
     return self;
 }
@@ -88,7 +103,7 @@
     if (recognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [recognizer translationInView:self];
         
-        NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
+        //NSLog(@"New translation: %@", NSStringFromCGPoint(translation));
         
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPanWithOffset:)]) {
             [self.delegate floatingToolbar:self didTryToPanWithOffset:translation];
@@ -98,6 +113,27 @@
     }
 }
 
+- (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGFloat scale = [recognizer scale];
+        
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didPinchLabels:)]) {
+            [self.delegate floatingToolbar:self didPinchLabels:scale];
+        }
+        
+        recognizer.scale = 1.0;
+    }
+}
+
+- (void) longPressFired:(UILongPressGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"Poop");
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:longTouchOccurred:)]) {
+            NSLog(@"DOuble Poop");
+            [self.delegate floatingToolbar:self longTouchOccurred:[recognizer minimumPressDuration]];
+        }
+    }
+}
 
 - (void) layoutSubviews {
     // set the frames for the 4 labels
