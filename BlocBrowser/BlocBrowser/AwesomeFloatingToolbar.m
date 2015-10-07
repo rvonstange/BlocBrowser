@@ -77,10 +77,12 @@
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
     [self addGestureRecognizer:self.pinchGesture];
     self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
-    self.longPressGesture.numberOfTapsRequired = 1;
+    self.longPressGesture.numberOfTapsRequired = 0;
     self.longPressGesture.numberOfTouchesRequired = 1;
-    self.longPressGesture.minimumPressDuration = 3;
+    self.longPressGesture.minimumPressDuration = .5;
+    self.longPressGesture.allowableMovement = 0;
     [self addGestureRecognizer:self.longPressGesture];
+    
     
     
     return self;
@@ -127,9 +129,7 @@
 
 - (void) longPressFired:(UILongPressGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"Poop");
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:longTouchOccurred:)]) {
-            NSLog(@"DOuble Poop");
             [self.delegate floatingToolbar:self longTouchOccurred:[recognizer minimumPressDuration]];
         }
     }
